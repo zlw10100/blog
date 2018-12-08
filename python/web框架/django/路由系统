@@ -1,0 +1,259 @@
+[TOC]
+
+
+## 一、路由系统理解
+**系统功能：根据用户访问的不同`url`，执行对应的视图函数。**
+`web`服务器可以根据用户访问的`url`地址的不同，返回相应的`html`页面，而`html`的页面渲染由视图函数处理，这就需要有一个模块负责分析用户访问的`url`地址，并根据预先定义的映射规则，将请求分发到不同的视图函数中进一步处理，负责这个工作的模块就是`web`框架中的路由系统。路由系统的工作总结起来就是：**制定路由规则，分析`url`，分发请求到响应视图函数中**。
+
+路由系统的路由功能基于路由表，路由表是预先定义好的`url`和视图函数的映射记录，换句话说，可以理解成将`url`和视图函数做了绑定，映射关系有点类似一个`python`字典:
+```
+url_to_view_dic = {
+    '路径1': view_func_1,
+    '路径2': view_func_2,
+    '路径n': view_func_n,
+    ...
+}
+```
+
+路由表的建立是控制层面，需要在实际业务启动前就准备完毕，即：先有路由，后有业务。
+一旦路由准备完毕，业务的转发将会完全遵从路由表的指导：
+```
+去往路径1的request --> 被路由器分发到view_func_1函数处理
+去往路径2的request --> 被路由器分发到view_func_2函数处理
+去往路径n的request --> 被路由器分发到view_func_n函数处理
+...
+```
+
+---
+
+## 二、路由系统功能划分
+路由系统的本质功能是：**指路**，针对一次路由请求，返回下一跳转发地址。
+任何路由系统都将涵盖至少如下两个核心功能：
+
+
+**路由器的核心功能：(非常重要!!!!)
+1、创建路由表（控制层面）  ----> 用户定义
+2、路由分发（转发层面）  ----> django框架自动处理**
+
+---
+
+
+## 三、路由表创建
+
+
+### 创建工具
+
+
+`django`框架中的工具：**`re_path`和`path`**
+所有的`web`请求都将以`django`项目目录下的`urls.py`文件作为路由分发主入口,所以如果要完成最简单的路由功能，只需要在此文件中预先配置好路由表即可。`re_path`是`django v1`的工具，`path`是`django v2`的工具，后者兼容前者。
+
+
+```
+# 项目urls.py文件, 目前两种工具可以任选使用
+re_path(r'home/', views.index)
+path('articles/<int:id>', views.show_article)
+```
+
+
+路由的匹配顺序是**自上而下**，一旦匹配即执行对应视图函数，便**不再继续匹配**。
+所以路由表条目的顺序很重要，有严格要求的路径应该放前面，宽松要求甚至可以聚合的路径应该放后面。匹配成功后的视图函数以如下形式执行：
+
+
+```
+# 执行接口: view_func(request, *args, **kw)
+# 参数是固定的request对象以及由re_path或path捕获的无名分组/有名分组参数
+
+views.index(request)
+views.show_article(request, id)
+```
+
+如下是一张简单的路由表配置：
+```
+# urls.py文件
+
+urlpatterns = [
+    # 自带后台管理页面路由
+    path('admin/', admin.site.urls),
+
+    # 新增
+    re_path(r'^add/author/$', views.add_author),
+    re_path(r'^add/book/$', views.add_book),
+
+    # 删除
+    re_path(r'delete/author/(\d+)', views.delete_author),
+    re_path(r'delete/book/(\d+)', views.delete_book),
+
+    # 修改
+    re_path(r'edit/author/(\d+)', views.edit_author),
+    re_path(r'edit/book/(\d+)', views.edit_book),
+]
+```
+
+
+
+**特别注意1，`django`路由系统只会针对`url`进行匹配，并不会再额外考虑`method`或者其他`request`中的属性，这也意味着仅仅只需考虑url即可。（当然，我觉得后续如有需要，可以增加匹配因子，以便做到更精准的匹配）**
+
+
+
+
+**特别注意2，在浏览器中访问某一个`url`，如果路径结尾没有添加`/`，在`django`框架中会被自动添加结尾的`/`。在路由表中，匹配路径的时候要关注`/`，即：`re_path(r'home/')`，换句话说，可以认为在`django`的环境下，路径`pathinfo`是必须有后导`/`的。**
+
+---
+
+### 二级路由
+
+二级路由的意思就是把项目urls文件中的路由整理划分，分布到各自的应用目录`urls`文件中，以此实现：
+1、降低项目`urls`路由文件中路由数量，由各自应用`urls`路由文件承担
+2、解耦整个项目的路由表，出现路由问题的时候可以单独在二级路由表中处理
+3、多级路由以树形结构执行查询，在路由数量很大的时候，可以比单路由表有更快的查询速度
+
+用`include`实现二级路由表,二级路由会将在一级路由匹配到的`url`截断后再发送给子路由表继续匹配。以如下一级路由表为例，如果服务器收到一个`http://www.xxx.com:8080/game/user/add/?name=a&pswd=b`的请求，首先会匹配一级路由表中的`game/`并将截断后的`user/add/`发送到二级路由表继续匹配。
+
+
+```
+re_path(r'game/', include('game_app.urls')),
+re_path(r'chat/', include('chat_app.urls')),
+re_path(r'vidio/', include('vidio_app,urls'),
+```
+
+---
+
+
+
+
+### 路由别名
+
+因为路由`url`会被频繁引用，所以会带来修改时工作量过大的问题，解决办法是启用一个别名来代替`url`原始`url`，在所有引用的地方使用别名，这样原始`url`不论如何修改，都会被正确指向。当然，这个前提是，别名不能发生修改，否则同样要变动所有引用此别名的地方，所以别名的定义非常重要。此外，路由别名的作用域是全局，它是一个全局变量，这也意味着使用路由别名也有重名覆盖的风险。
+**使用路由别名的目的是获取原始`url`**，如果原`url`有动态部分，需要在解析的时候传入对应参数来明确动态部分。
+
+路由别名重名覆盖风险的解决方法：
+1、在全局`urls`中定义每一个二级路由的`namespace`
+2、在每一个二级路由`urls`中定义`app_name`
+3、在别名定义的时候加上区分前缀如：`app01-home`, `app02-home`
+
+别名的使用场景：
+```
+# 在模板中使用：
+{% url '别名' *args, **kw %}
+
+# 在视图函数中使用：
+reverse('别名', *args, **kw)
+```
+
+---
+
+
+
+### 动态路由及重定向
+动态路由
+所谓的动态路由，其实就是聚合大量同类的`url`，并用`re`规则执行匹配并获取动态数据部分。
+```
+# re_path:
+re_path(r'articles/(?P<id>\d+)'), show_article)  ---> show_article(request, id=id)
+
+# path:
+path('articles/<int:id>', show_article) ---> show_article(request, id=id)
+```
+
+重定向
+`return redirect(某一个具体网址，可来自于反向解析的结果)`
+
+
+---
+
+
+## 四、自定义错误页面
+固定流程如下：
+`settings.py`中`DEBUG`改为`False`，`ALLOWD_HOSTS`改为`['*']`
+`templates`中新建对应的`404.html`, `500.html`等
+`urls`中定义:
+```
+handler404 = views.page_not_found
+handler500 = views.server_error
+```
+`views`中配置对应函数：
+```
+def page_not_found(request):
+    return render(request, '404.html')
+
+def server_error(request):
+    return render(request, '500.html')
+```
+
+
+---
+
+
+
+
+
+## 五、图示路由系统在框架中的定位
+
+**每次请求到服务器，执行路由的流程图**
+![](https://img2018.cnblogs.com/blog/1381809/201810/1381809-20181003145425744-477696618.jpg)
+
+
+
+
+**伪代码实现以上图示**
+```
+# 启动路由分发过程
+def route(environ, route_table):
+    url = environ.url
+    view_func = None
+
+    # 遍历路由表
+    for map in route_table:
+        if url == map[0]:
+            view_func= map[1]
+            break
+
+    return view_func
+
+# 执行视图函数处理过程
+def start_handle(environ, view_func):
+    if view_func:
+        return view_func(environ)
+    else:
+        return page_not_found(environ)
+
+# web服务器主循环
+def run():
+    # 循环处理每一次的请求
+    while True:
+        # 从tcp中获取当前客户端请求的http字节数据
+        request_bytes = server.recv(1024)
+
+        # 根据http协议解析，得到http数据
+        request_http_data = http_parse(request_bytes.decode('utf-8'))
+
+        # web框架进一步处理http数据，封装成方便使用的environ对象
+        environ = build_environ(request_http_data)
+
+        # 根据当前请求的url，在路由表中找到对应的视图函数 ---> 路由系统的工作界面
+        view_func = route(environ, route_table)
+
+        # 启动视图函数，处理当前请求的具体内容, 返回处理结果
+        response = start_handle(environ, view_func)
+
+        # 按照http协议拆解web框架封装好的response对象，得到http字符串
+        response_http_data = http_encapsulation(response)
+
+        # 发送http字节数据给客户端
+        server.send(response_http_data.encode('utf-8'))
+
+if __name__ == '__main__':
+    run()
+
+```
+
+---
+
+
+
+
+## 六、路由系统的进阶想法
+进阶考虑：
+路由器收到请求`request`后，转发到后端另一台机器上执行，然后使用协程异步，处理其他的`reqeust`请求。如果请求得到的响应，再切换回协程，然后执行响应。这样可以实现入口服务器作为所有请求的承接者，然后转发到对应的后面不同业务服务器处理各自的业务，可以把业务分离到不同的机器上，而且此时入口服务器也可以处理并发请求。
+**即：多个服务器上均部署`django`，多台服务器之间的`django`可以相互通信，这样可以实现一个类似服务器集群的效果，可以完成负载均衡和备份的效果。**
+![](https://img2018.cnblogs.com/blog/1381809/201810/1381809-20181003153643168-2008535193.jpg)
