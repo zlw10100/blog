@@ -320,6 +320,3 @@ with MySQL() as mysql:
 # 执行sql命令，操作数据
 # 数据库连接关闭，清理系统资源
 ```
-
-
-### 10、get、set、delete、描述符(研究中，待补充）
