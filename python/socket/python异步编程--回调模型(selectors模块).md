@@ -3,14 +3,14 @@
 ---
 
 
-##0. 参考地址
+## 0. 参考地址
 基本介绍 https://www.cnblogs.com/yinheyi/p/8127871.html
 实验演示 https://www.cnblogs.com/xybaby/p/6406191.html#_label_2
 详细讲解 http://aju.space/2017/07/31/Drive-into-python-asyncio-programming-part-1.html
 官方文档selecotors  https://docs.python.org/3/library/selectors.html
 官方文档select https://docs.python.org/3/library/select.html
 
-##1. 前言
+## 1. 前言
 并发的解决方案中,因为阻塞IO调用的原因,同步模型(串行/多进程/多线程)并不适合大规模高并发.在非阻塞IO调用中,我们可以使用一个线程完成高并发的功能,不过因为非阻塞IO会立即返回,如何判断IO准备就绪以及就绪之后如何处理就变成了关键,所以我们需要附带额外的处理.
 
 
@@ -24,7 +24,7 @@
 
 
 
-##2. 核心类
+## 2. 核心类
 `selectors`模块中的核心类如下:
 ![](https://images2018.cnblogs.com/blog/1381809/201807/1381809-20180729094240015-564913257.jpg)
 
@@ -53,7 +53,7 @@ select(self, timeout=None)  # 向OS查询准备就绪的文件对象
 
 
 
-##3. SelectSelector核心函数代码分析
+## 3. SelectSelector核心函数代码分析
 有名元祖`selectorkey`
 ```python
 SelectorKey = namedtuple('SelectorKey', ['fileobj', 'fd', 'events', 'data'])
@@ -61,7 +61,7 @@ SelectorKey = namedtuple('SelectorKey', ['fileobj', 'fd', 'events', 'data'])
 此对象是一个有名元祖,可以认为是对文件对象`fileobj`,对应的描述符值`fd`,对应的事件`events`,附带的数据`data`这几个属性的封装.**此对象是核心操作对象**,关联了需要监控的文件对象,关联了需要`OS`关注的事件,保存了附带数据(*其实这里就放的回调函数*)
 
 
-###3.1 注册
+### 3.1 注册
 
 ```python
 def __init__(self):
@@ -92,7 +92,7 @@ def register(self, fileobj, events, data=None):
 `register`函数将用户监听的文件对象和事件注册到有名元祖中,并加入监听集合`_readers`和`_writers`中
 
 
-###3.2 注销
+### 3.2 注销
 ```python
 def unregister(self, fileobj):
     key = super().unregister(fileobj)
@@ -104,7 +104,7 @@ def unregister(self, fileobj):
 
 
 
-###3.3 查询
+### 3.3 查询
 ```python
 def select(self, timeout=None):
     timeout = None if timeout is None else max(timeout, 0)
@@ -147,7 +147,7 @@ fd_event_list = self._epoll.poll(timeout, max_ev)
 在`windows`中,一旦底层`select`接口返回,会得到`3`个列表,前两个表示可读和可写的文件对象列表,并使用集合处理为唯一性.准备就绪的元祖对象会加入`ready`列表中返回.如果定义了`timeout`不为`None`,且发生了超时,会返回一个空列表.
 
 
-##4. 别名
+## 4. 别名
 ```python
 # Choose the best implementation, roughly:
 #    epoll|kqueue|devpoll > poll > select.
@@ -167,7 +167,7 @@ else:
 
 
 
-##5. 总结
+## 5. 总结
 1 操作系统提供的`select/poll/epoll`接口可以用于**编写事件循环**,而`selectors`模块封装了`select`模块,`select`模块是一个低级别的模块,封装了`select/poll/epoll/kqueue`等接口.
 
 
@@ -186,9 +186,9 @@ else:
 
 6 回调模型很难理解
 
-##6. 代码报错问题
+## 6. 代码报错问题
 
-###1. 文件描述符数量
+### 1. 文件描述符数量
 ```python
 Traceback (most recent call last):
   File "F:/projects/hello/hello.py", line 119, in <module>
@@ -212,7 +212,7 @@ ValueError: too many file descriptors in select()
 https://stackoverflow.com/questions/47675410/python-asyncio-aiohttp-valueerror-too-many-file-descriptors-in-select-on-win
 
 
-###2. 监听列表是否可以为空
+### 2. 监听列表是否可以为空
 ```python
 Traceback (most recent call last):
   File "F:/projects/hello/world.py", line 407, in <module>
@@ -233,5 +233,5 @@ OSError: [WinError 10022] 提供了一个无效的参数。
 
 
 
-##7. 关系图
+## 7. 关系图
 ![](https://images2018.cnblogs.com/blog/1381809/201807/1381809-20180729121124827-851681246.jpg)
