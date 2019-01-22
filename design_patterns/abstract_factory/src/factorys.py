@@ -2,6 +2,12 @@
 # -*- coding: utf-8 -*-
 # 'author':'zlw'
 
+
+"""抽象工厂模块
+工厂具体类的数量等于产品子类最多的数量。
+"""
+
+
 from abc import ABCMeta, abstractmethod
 
 from src.products import (
@@ -11,6 +17,7 @@ from src.products import (
     RedisUser,
     RedisCourse,
 )
+
 
 # 抽象工厂类
 class AbstractFactory(object, metaclass=ABCMeta):
@@ -31,15 +38,10 @@ class MysqlFactory(AbstractFactory):
         return MysqlCourse()
 
 
+# 具体工厂类
 class RedisFactory(AbstractFactory):
     def create_user(self):
         return RedisUser()
     
     def create_course(self):
         return RedisCourse()
-
-
-
-
-
-
