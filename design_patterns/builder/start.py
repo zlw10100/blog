@@ -2,6 +2,13 @@
 # -*- coding: utf-8 -*-
 # 'author':'zlw'
 
+
+"""一个简单的构造建筑物的程序。
+有两个建筑物：博物馆和歌剧院。
+两个建筑物的构造过程相同，但是构造细节不同，使用建造者模式详细定义和管理建造过程。
+"""
+
+
 from src.commander import Commander
 from src.builders import (
     MuseumBuilder,
@@ -21,14 +28,5 @@ if __name__ == '__main__':
     # 从构造者获取产品
     museum = museum_builder.get_result()
     museum.show()
-
-
-
-
-
-
-
-
-
-
-
+    # 部件: 博物馆的基座
+    # 部件: 博物馆的墙面
