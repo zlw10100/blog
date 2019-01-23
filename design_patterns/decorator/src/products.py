@@ -3,9 +3,15 @@
 # 'author':'zlw'
 
 
+"""真实产品对象(业务类)模块
+此模块中的真实产品是一个函数。
+"""
+
+
 from abc import ABCMeta, abstractmethod
 
-class AbstractFunction(object, metaclass=ABCMeta):
+
+class AbstractProduct(object, metaclass=ABCMeta):
     def __init__(self, name):
         self.name = name
         
@@ -18,16 +24,6 @@ class AbstractFunction(object, metaclass=ABCMeta):
     __repr__ = __str__
 
 
-class SimpleFunction(AbstractFunction):
+class ProductFunc(AbstractProduct):
     def call(self):
         print('简单函数被调用,执行函数体定义的内容')
-
-
-
-
-
-
-
-
-
-
