@@ -3,6 +3,8 @@
 # 'author':'zlw'
 
 
+"""一个简单的实现组合模式的程序"""
+
 
 from src.compoents import Composite, Leave
 
@@ -29,14 +31,9 @@ if __name__ == '__main__':
 
     # 查看此节点下的所有节点信息
     root.display(1)
-
-
-
-
-
-
-
-
-
-
-
+    # = root Composite
+    # == leave_a Leave
+    # == leave_b Leave
+    # == comp Composite
+    # === comp_left Leave
+    # === comp_right Leave
