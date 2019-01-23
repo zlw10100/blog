@@ -2,23 +2,32 @@
 # -*- coding: utf-8 -*-
 # 'author':'zlw'
 
-from copy import copy
+
+"""个人简历对象的复制程序
+通过copy而不是多次实例化操作来获得同一个对象的多个副本。
+"""
 
 
-# 原型类，提供clone克隆接口
-class Prototype(object):
+from copy import copy, deepcopy
+
+
+# 原型接口类，提供clone克隆方法
+class PrototypeInterface(object):
     def clone(self):
         raise NotImplementedError('方法必须被实现')
 
 
-class Profile(object):
+class Profile(PrototypeInterface):
     def __init__(self, name, age, gender):
         self.name = name
         self.age = age
         self.gender = gender
 
     def clone(self):
-        return copy(self)
+        """如果只需要对象的属性值，则使用copy即可。
+        若需要对象所有深层引用的其他对象，则应该使用deepcopy。
+        """
+        return deepcopy(self)
 
     def show(self):
         print('个人简历信息:')
@@ -35,5 +44,4 @@ if __name__ == '__main__':
         profile_list.append(profile.clone())
 
     print(profile_list)
-
-
+    # 结果是20份内存地址互不相同的profile对象
