@@ -3,6 +3,11 @@
 # 'author':'zlw'
 
 
+"""网站站点模块
+此模块定义了多种网站站点，每一种网站站点都可以被不同的网站管理员使用(需要提供每一位管理员自己的账号)
+这里假设同一类网站站点都是相似的，所以多个管理员可以共享同一个网站站点对象(实际业务场景中基本不太可能)。
+"""
+
 from abc import ABCMeta, abstractmethod
 
 
@@ -32,7 +37,3 @@ site_map = {
     'blog': BlogSite(),
     'music': MusicSite(),
 }
-
-
-
-
