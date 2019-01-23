@@ -35,10 +35,3 @@ if __name__ == '__main__':
     laptop_com.set_software(video)
     laptop_com.set_software(music)
     laptop_com.show_softwares()
-
-
-
-
-
-
-
