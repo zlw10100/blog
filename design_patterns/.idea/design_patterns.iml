@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/UN" />
+      <excludeFolder url="file://$MODULE_DIR$/abstract_factory" />
+      <excludeFolder url="file://$MODULE_DIR$/adapter" />
+      <excludeFolder url="file://$MODULE_DIR$/builder" />
+      <excludeFolder url="file://$MODULE_DIR$/command" />
+      <excludeFolder url="file://$MODULE_DIR$/company" />
+      <excludeFolder url="file://$MODULE_DIR$/computer" />
+      <excludeFolder url="file://$MODULE_DIR$/dbconnector" />
+      <excludeFolder url="file://$MODULE_DIR$/decorator" />
+      <excludeFolder url="file://$MODULE_DIR$/factory_method" />
+      <excludeFolder url="file://$MODULE_DIR$/ftpserver" />
+      <excludeFolder url="file://$MODULE_DIR$/game" />
+      <excludeFolder url="file://$MODULE_DIR$/iterator" />
+      <excludeFolder url="file://$MODULE_DIR$/man_woman" />
+      <excludeFolder url="file://$MODULE_DIR$/prototype" />
+      <excludeFolder url="file://$MODULE_DIR$/salary_increase" />
+      <excludeFolder url="file://$MODULE_DIR$/shopping" />
+      <excludeFolder url="file://$MODULE_DIR$/shopping_pro" />
+      <excludeFolder url="file://$MODULE_DIR$/simple_factory" />
+      <excludeFolder url="file://$MODULE_DIR$/singleton" />
+      <excludeFolder url="file://$MODULE_DIR$/tcpserver" />
+      <excludeFolder url="file://$MODULE_DIR$/wangyimusic" />
+      <excludeFolder url="file://$MODULE_DIR$/web" />
+      <excludeFolder url="file://$MODULE_DIR$/work" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="TestRunnerService">
+    <option name="projectConfiguration" value="Twisted Trial" />
+    <option name="PROJECT_TEST_RUNNER" value="Twisted Trial" />
+  </component>
+</module>
