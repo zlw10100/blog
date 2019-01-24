@@ -3,6 +3,11 @@
 # 'author':'zlw'
 
 
+"""一个简单的实现命令模式的程序
+此程序模拟cmd命令行模拟一个命令的执行。
+"""
+
+
 from src.callers import CmdCaller
 from src.managers import CmdManager
 from src.commands import DirCommand
