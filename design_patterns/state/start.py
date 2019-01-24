@@ -3,6 +3,11 @@
 # 'author':'zlw'
 
 
+"""一个简单的实现状态模式的程序
+定义一个编程工作，并设定不同的状态以实现不同的工作行为。
+"""
+
+
 from src.works import ProgramWork
 from src.states import (
     MorningState,
@@ -32,14 +37,3 @@ if __name__ == '__main__':
     # 第二天
     pw.cur_hour = 9
     pw.work()
-
-
-
-
-
-
-
-
-
-
-

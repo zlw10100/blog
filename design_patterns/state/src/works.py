@@ -3,7 +3,11 @@
 # 'author':'zlw'
 
 
+"""工作(业务)模块"""
+
+
 from abc import ABCMeta, abstractmethod
+
 
 class AbstractWork(object, metaclass=ABCMeta):
     @abstractmethod
@@ -25,15 +29,3 @@ class ProgramWork(AbstractWork):
     
     def work(self): 
         self.state.work(self)
-
-
-
-
-
-
-
-
-
-
-
-

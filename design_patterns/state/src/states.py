@@ -3,7 +3,13 @@
 # 'author':'zlw'
 
 
+"""状态模块
+此模块定义了业务状态类，业务将会根据状态的改变而改变行为。
+"""
+
+
 from abc import ABCMeta, abstractmethod
+
 
 class AbstractState(object, metaclass=ABCMeta):
     @abstractmethod
@@ -38,5 +44,3 @@ class EveningState(AbstractState):
             # 不是当前状态，交给下一个状态管理
             w.set_state(MorningState())
             w.work()
-
-
