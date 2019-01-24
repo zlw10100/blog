@@ -2,23 +2,26 @@
 # -*- coding: utf-8 -*-
 # 'author':'zlw'
 
+
+"""命令模块
+此模块定义各种命令类。
+"""
+
+
 from abc import ABCMeta, abstractmethod
 
-class AbstractCommand(object, metaclass=ABCMeta):
-    def __init__(self, receiver):
-        self.receiver = receiver
 
+class AbstractCommand(object, metaclass=ABCMeta):
     @abstractmethod
     def execute(self):
         pass
 
 
-# 具体的命令类
 class DirCommand(AbstractCommand):
+    command = 'dir'
+
     def execute(self):
-        print('执行dir方法')
-        result = '命令执行结果'
-        # 执行完后把结果发送给调用者的回调函数
-        self.receiver.callback(result)
-
-
+        print(f'执行{self.command}方法')
+        result = 'dir results is xxxxxx'
+        status = True
+        return status, result

@@ -3,56 +3,27 @@
 # 'author':'zlw'
 
 
-
-
-from src.persons import Person
-from src.admin import Admin
+from src.callers import CmdCaller
+from src.managers import CmdManager
 from src.commands import DirCommand
 
 
-
 if __name__ == '__main__':
-    p = Person()
-    print(p.is_executed)
-    # 关联命令对象和接收者对象
-    dir = DirCommand(p)
+    # 实例化命令
+    dir_obj = DirCommand()
 
-    # 实例化管理者对象
-    # 管理者用于控制、管理、记录命令执行
-    admin = Admin()
-    # 设置一个要执行的命令对象
-    admin.set_command(dir)
-    # 执行命令
-    admin.execute_command()
-    print(p.is_executed)
+    # 实例化命令管理者
+    cmd_manager = CmdManager()
 
+    # 装配命令
+    cmd_manager.save(dir_obj.command, dir_obj)
 
+    # 实例化调用者
+    caller = CmdCaller(manager=cmd_manager)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # 调用命令
+    caller.execute('dir')
+    # 执行dir方法
+    # 命令执行成功
+    # 结果是: dir
+    # results is xxxxxx
