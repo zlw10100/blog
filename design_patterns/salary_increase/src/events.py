@@ -3,25 +3,11 @@
 # 'author':'zlw'
 
 
-from abc import ABCMeta, abstractmethod
+"""事件模块
+此模块定义事件的具体属性和方法。
+"""
 
 
-class AbstractEvent(object, metaclass=ABCMeta):
-    # 事件名称和对应的权级,还有额外的自定义字段
-    def __init__(self, **extra):  
-        for k, v in extra.items():
-            setattr(self, k, v)
-
-class SalaryIncreaseEvent(AbstractEvent):
-    pass
-
-
-
-
-
-
-
-
-
-
-
+class SalaryIncreaseEvent(object):
+    def __init__(self, money):
+        self.money = money
