@@ -3,10 +3,16 @@
 # 'author':'zlw'
 
 
+"""底层服务器模块
+此模块定义了TCP socket形式的服务器的请求接收和发送过程，
+但是请求的业务处理过程只定义了函数签名，并未实现，实现交由子类处理。
+"""
+
 
 import socket
 
-class BaseServer(object):
+
+class TCPServerTemplate(object):
     RECV_BUFFER = 4096
     SEND_BUFFER = 4096
 
@@ -36,13 +42,3 @@ class BaseServer(object):
     def run(self):
         self.prepare()
         self.loop()
-
-
-
-
-
-
-
-
-
-

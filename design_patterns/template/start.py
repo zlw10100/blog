@@ -3,7 +3,7 @@
 # 'author':'zlw'
 
 
-from src.server import TCPServer
+from src.tcpserver import TCPServer
 
 
 if __name__ == '__main__':
@@ -12,11 +12,3 @@ if __name__ == '__main__':
     
     server = TCPServer(ip, port)
     server.run()
-
-
-
-
-
-
-
-
