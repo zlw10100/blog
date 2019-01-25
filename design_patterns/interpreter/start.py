@@ -1,14 +1,12 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
-# date:2019/1/25
-
 
 
 """
 模拟对python赋值语句的解释
 <赋值语句> ::= <标识符> = <值>
 1. 解析语句判断合法性
-2. 得到语句的结果
+2. 执行赋值语句
 """
 
 
@@ -37,11 +35,11 @@ if __name__ == '__main__':
     assignment = AssignmentExpression(identifier, value)
 
     # 实例化赋值上下文
-    context = AssignmentContext(assignment, globals())
+    context = AssignmentContext(assignment)
 
     # 使用上下文解释赋值语句
-    # sentence = 'if = 2'
-    # context.execute(sentence)
+    sentence = 'if = 2'
+    context.execute(sentence)
     # 赋值执行失败，原因是: 标识符不能是内置关键字
 
     sentence = '0a = 2'
@@ -51,13 +49,3 @@ if __name__ == '__main__':
     sentence = 'a?b = 2'
     context.execute(sentence)
     # 赋值执行失败，原因是: 标识符只能由这些字符组成: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_
-
-    result = 103
-    print(globals())
-    print(globals()['result'])
-    sentence = 'a = result'
-    context.execute(sentence)
-    # print(a)
-
-
-

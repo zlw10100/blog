@@ -1,6 +1,5 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
-# date:2019/1/25
 
 
 """表达式模块
@@ -9,7 +8,7 @@
 
 
 class AbstractExpression(object):
-    def interpret(self, data, *args, **kwargs):
+    def interpret(self, data):
         pass
 
 
@@ -55,7 +54,6 @@ class AssignmentExpression(UnterminalExpression):
         # 执行赋值
         try:
             exec(data)
-            print('执行完毕:', data)
         except Exception as why:
             return False, f'赋值语句语法错误: {why}'
 
@@ -109,7 +107,6 @@ class ValueExpression(TerminalExpression):
 
         # 如果是非字符串，则意味着是引用，判断值是否存在于内存中
         try:
-            print('try', globals())
             data = eval(data, globals())
         except NameError:
             return False, f'变量{data}未定义'
