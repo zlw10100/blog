@@ -3,56 +3,50 @@
 # 'author':'zlw'
 
 
-class PolicyContext(object):
-    def __init__(self, instance):
-        self.instance = instance
+"""策略模块
+此模块定义了各种策略类。
+"""
 
-    def cal(self, price):
-        return self.instance.cal(price)
-# =============================================
 
 class BasePolicy(object):
-    def cal(self):
-        raise NotImplementedError('必须被实现')
+    pass
 
-class CommonPolicy(BasePolicy):
+
+# 价格策略基类
+class BasePricePolicy(BasePolicy):
+    pass
+
+
+# 普通价格策略类
+class CommonPricePolicy(BasePricePolicy):
     name = 'common' # 正常收银
 
-    def cal(self, price):
+    def calculate(self, price):
         print('检测价格，返回原始价格')
         return price
 
-class DiscountPolicy(BasePolicy):
+
+class DiscountPricePolicy(BasePricePolicy):
     name = 'discount' # 打折优惠
     
     def __init__(self, discount):
         self.discount = discount
 
-    def cal(self, price):
+    def calculate(self, price):
         print('检测价格，返回打折价格')
         return self.discount * price
 
 
-class ReductionPolicy(BasePolicy):
-    name = 'reduction'
-    
-    # 满减优惠
+class ReductionPricePolicy(BasePricePolicy):
+    name = 'reduction'  # 满减优惠
+
     def __init__(self, full, reduction):
         self.full = full
         self.reduction = reduction
     
-    def cal(self, price):
+    def calculate(self, price):
         if price >= self.full:
             print('检测价格，返回满减价格')
             return price - self.reduction
         print('检测价格，未达满减要求')
         return price
-
-
-
-
-
-
-
-
-
