@@ -8,7 +8,6 @@
 """
 
 
-from abc import ABCMeta, abstractmethod
 from src.iterators import MyIterator
 
 
@@ -22,18 +21,10 @@ class MySet(SetInterface):
         self._list = list
         self.size = len(list)
 
+    # 为集合对象创建一个迭代器对象，迭代器对象有一个引用指向集合对象
     def create_iterator(self):
         return MyIterator(self)
 
+    # 模拟数组取值
     def __getitem__(self, item):
         return self._list[item]
-
-
-
-
-
-
-
-
-
-
