@@ -8,12 +8,12 @@
 """
 
 
-class AbstractManager(object):
+class BaseManager(object):
     def save(self, index, snapshot):
-        pass
+        raise NotImplementedError
 
     def extract(self, index):
-        pass
+        raise NotImplementedError
 
 
 class GameManager(AbstractManager):

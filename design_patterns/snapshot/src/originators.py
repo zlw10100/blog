@@ -11,10 +11,10 @@
 
 class OriginatorInterface(object):
     def save_state(self, snapshot_cls):
-        pass
+        raise NotImplementedError
 
     def set_state(self, snapshot):
-        pass
+        raise NotImplementedError
 
 
 class GameOriginator(OriginatorInterface):
