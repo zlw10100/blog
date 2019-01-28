@@ -3,14 +3,6 @@
 # 'author':'zlw'
 
 
-"""
-最重要的: 链表是一个递归的数据结构!!!
-"""
-
-
-from implements import DefaultBag as Bag
-
-
 # 第一步，定义api
 """
 背包api的定义。
@@ -25,6 +17,9 @@ class Bag:
     __iter__        生成当前背包的迭代器对象
     __next__        获取当前背包中的下一个元素
 """
+
+
+from implements import DefaultBag as Bag
 
 
 # 第二步，定义用例

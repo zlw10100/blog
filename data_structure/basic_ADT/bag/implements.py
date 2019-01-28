@@ -51,13 +51,12 @@ class BagArrayImplemented(AbstractBag):
         self.iter_index = None
 
     def add(self, item):
-        # 动态容量扩展
-        if (self.cur_size + 1) >= (self.max_size // 2):
-            self._resize(self.max_size * 2)
-
         self.array[self.cur_index] = item
         self.cur_index += 1
         self.cur_size += 1
+
+        # 容量检查
+        self._check_resize()
 
     def is_empty(self):
         return self.cur_size == 0
@@ -82,9 +81,13 @@ class BagArrayImplemented(AbstractBag):
             self.iter_index += 1
             return item
 
-    def _resize(self, new_size):
-        assert new_size > self.cur_size, f'动态调整容量时发生逻辑错误'
+    def _check_resize(self):
+        if self.cur_size >= (self.max_size // 2):
+            new_size = self.max_size * 2
+        else:
+            return None
 
+        # 执行容量调整
         new_array = [None] * new_size
         for i in range(self.cur_size):
             new_array[i] = self.array[i]
