@@ -135,17 +135,63 @@ class QueueArrayImplemented(AbstractQueue):
 
 
 class QueueLinkedListImplemented(AbstractQueue):
+    """基于链表的队列实现"""
+
+    def __init__(self):
+        # 定义底层实现
+        self.head = None
+        self.tail = None
+        self.cur_size = 0
+        self.iter_pointer = None
+
     def enqueue(self, item):
-        pass
+        new_node = self.Node(item)
+
+        if self.head is self.tail is None:  # 空链表
+            self.head = self.tail = new_node
+        else:
+            old_tail = self.tail
+            self.tail = new_node
+            old_tail.next_node = self.tail
+
+        self.cur_size += 1
 
     def dequeue(self):
-        pass
+        if self.is_empty():
+            raise QueueIsEmptyError()
+
+        item = self.head.item
+        if self.head is self.tail:  # 单节点
+            self.head = self.tail = None
+        else:
+            self.head = self.head.next_node
+
+        self.cur_size -= 1
+        return item
 
     def is_empty(self):
-        pass
+        return self.head is self.tail is None
 
     def size(self):
-        pass
+        return self.cur_size
+
+    def __iter__(self):
+        if not self.is_empty():
+            self.iter_pointer = self.head
+        return self
+
+    def __next__(self):
+        if self.iter_pointer is None:
+            raise StopIteration
+
+        item = self.iter_pointer.item
+        self.iter_pointer = self.iter_pointer.next_node
+        return item
+
+    class Node(object):  # 私有嵌套类
+        def __init__(self, item=None):
+            self.item = item
+            self.next_node = None
 
 
-DefaultQueue = QueueArrayImplemented
+DefaultQueue = QueueLinkedListImplemented

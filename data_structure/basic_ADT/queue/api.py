@@ -44,24 +44,3 @@ if __name__ == '__main__':
 
     print('测试通过')
 
-    for i in queue:
-        print(i)
-    print(queue.max_size)
-    queue.enqueue(9)
-    queue.enqueue(9)
-    queue.enqueue(9)
-    queue.enqueue(9)
-    print('max size', queue.max_size)
-    for i in queue:
-        print('i是:', i)
-    print(queue.max_size)
-    print(queue.size())
-    print(queue.dequeue())
-    print('11', queue.size())
-    print(queue.max_size)
-    print(queue.dequeue())
-    print('11', queue.size())
-    print(queue.max_size)
-    print(queue.dequeue())
-    print(queue.max_size)
-
