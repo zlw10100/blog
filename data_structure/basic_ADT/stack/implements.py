@@ -2,7 +2,21 @@
 # -*- coding:utf-8 -*-
 
 
+"""
+栈的实现模块
+基于数组以及链表。
+"""
+
+
 from abc import ABCMeta, abstractmethod
+
+
+class Error(Exception):
+    pass
+
+
+class StackIsEmptyError(Error):
+    pass
 
 
 class IteratorInterface(object):
@@ -57,6 +71,9 @@ class StackArrayImplemented(AbstractStack):
         self._check_resize()
 
     def pop(self):
+        if self.is_empty():
+            raise StackIsEmptyError()
+
         item = self.array[self.top]
         if self.top == 0:
             self.top = None
@@ -124,6 +141,9 @@ class StackLinkedListImplemented(AbstractStack):
         self.cur_size += 1
 
     def pop(self):
+        if self.is_empty():
+            raise StackIsEmptyError
+
         item = self.head.item
         self.head = self.head.next_node
         self.cur_size -= 1
