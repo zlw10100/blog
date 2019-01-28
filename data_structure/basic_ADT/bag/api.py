@@ -42,4 +42,7 @@ if __name__ == '__main__':
         item_list.append(item)
     assert len(item_list) == 1 and item_list[0] == 1, '背包不为空时迭代接口测试失败'
 
+    # 最大容量动态检测
+    pass
+    
     print('测试用例通过')

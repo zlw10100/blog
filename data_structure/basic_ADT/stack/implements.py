@@ -88,6 +88,7 @@ class StackArrayImplemented(AbstractStack):
         for i in range(self.cur_size):
             new_array[i] = self.array[i]
         self.array = new_array
+        self.max_size = new_size
 
     def __iter__(self):
         if self.cur_size != 0:
