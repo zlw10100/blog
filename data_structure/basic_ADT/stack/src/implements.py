@@ -8,41 +8,10 @@
 """
 
 
-from abc import ABCMeta, abstractmethod
-
-
-class Error(Exception):
-    pass
-
-
-class StackIsEmptyError(Error):
-    pass
-
-
-class IteratorInterface(object):
-    def __iter__(self):
-        raise NotImplementedError
-
-    def __next__(self):
-        raise NotImplementedError
-
-
-class AbstractStack(IteratorInterface, metaclass=ABCMeta):
-    @abstractmethod
-    def push(self, item):
-        pass
-
-    @abstractmethod
-    def pop(self):
-        pass
-
-    @abstractmethod
-    def is_empty(self):
-        pass
-
-    @abstractmethod
-    def size(self):
-        pass
+from .api import (
+    AbstractStack,
+    StackIsEmptyError,
+)
 
 
 class StackArrayImplemented(AbstractStack):
@@ -174,4 +143,4 @@ class StackLinkedListImplemented(AbstractStack):
             self.next_node = None
 
 
-DefaultStack = StackLinkedListImplemented
+Stack = StackLinkedListImplemented

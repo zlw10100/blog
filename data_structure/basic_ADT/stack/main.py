@@ -1,25 +1,9 @@
-# !/usr/bin/python
-# -*- coding:utf-8 -*-
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+# 'author':'zlw'
 
 
-# 定义api
-"""
-栈的定义：
-一个后进先出的集合。
-
-class Stack<Item>:
-    Stack()                 实例化栈对象
-
-    void push(Item item)    将元素入栈
-    Item pop()              弹出栈顶元素
-    bool is_empty()         判断栈是否为空
-    int size()              返回栈的当前容量
-    __iter__                返回栈的迭代器对象
-    __next__                返回迭代器中下一个元素
-"""
-
-
-from implements import DefaultStack as Stack
+from src.implements import Stack
 
 
 # 定义用例
