@@ -1,25 +1,9 @@
-# !/usr/bin/python
-# -*- coding:utf-8 -*-
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+# 'author':'zlw'
 
 
-# 第一步，定义api
-"""
-队列api定义：
-一个支持先进先出的集合。
-
-class Queue<Item>:
-    Queue()                     实例化一个队列对象
-
-    void enqueue(Item item)     将元素入队
-    Item dequeue()              出队元素
-    bool is_empty()             队列判空
-    int size()                  返回队列当前容量
-    __iter__                    返回队列迭代器对象
-    __next__                    返回迭代器中下一个元素
-"""
-
-
-from implements import DefaultQueue as Queue
+from src.implements import Queue
 
 
 # 第二步，定义用例
@@ -43,4 +27,3 @@ if __name__ == '__main__':
     assert item_list == [6, 10], '非空队列迭代接口测试失败'
 
     print('测试通过')
-

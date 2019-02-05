@@ -8,41 +8,10 @@
 """
 
 
-from abc import ABCMeta, abstractmethod
-
-
-class Error(Exception):
-    pass
-
-
-class QueueIsEmptyError(Error):
-    pass
-
-
-class IteratorInterface(object):
-    def __iter__(self):
-        raise NotImplementedError
-
-    def __next__(self):
-        raise NotImplementedError
-
-
-class AbstractQueue(IteratorInterface):
-    @abstractmethod
-    def enqueue(self, item):
-        pass
-
-    @abstractmethod
-    def dequeue(self):
-        pass
-
-    @abstractmethod
-    def is_empty(self):
-        pass
-
-    @abstractmethod
-    def size(self):
-        pass
+from .api import (
+    AbstractQueue,
+    QueueIsEmptyError,
+)
 
 
 class QueueArrayImplemented(AbstractQueue):
@@ -194,4 +163,4 @@ class QueueLinkedListImplemented(AbstractQueue):
             self.next_node = None
 
 
-DefaultQueue = QueueLinkedListImplemented
+Queue = QueueLinkedListImplemented
