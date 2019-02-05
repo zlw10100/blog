@@ -10,31 +10,7 @@
 """
 
 
-from abc import ABCMeta, abstractmethod
-
-
-class IteratorInterface(object):
-    def __iter__(self):
-        raise NotImplementedError
-
-    def __next__(self):
-        raise NotImplementedError
-
-
-class AbstractBag(IteratorInterface, metaclass=ABCMeta):
-    """抽象背包类接口"""
-
-    @abstractmethod
-    def add(self, item):
-        pass
-
-    @abstractmethod
-    def is_empty(self):
-        pass
-
-    @abstractmethod
-    def size(self):
-        pass
+from .api import AbstractBag
 
 
 class BagArrayImplemented(AbstractBag):
@@ -95,6 +71,37 @@ class BagArrayImplemented(AbstractBag):
         self.array = new_array
         self.max_size = new_size
 
+    def iter_item(self):
+        if self.is_empty():
+            return list()
+        else:
+            return self._iter_item()
+
+    def _iter_item(self):
+        item_list = list()
+        cur_index = 0
+
+        def is_stop():
+            return True if cur_index == self.cur_size else False
+
+        def handle():
+            item_list.append(self.array[cur_index])
+
+        def move_next():
+            nonlocal cur_index
+            cur_index += 1
+
+        def recursion():
+            if is_stop() is True:
+                return None
+            else:
+                handle()
+                move_next()
+                return recursion()
+
+        recursion()
+        return item_list
+
 
 class BagLinkedListImplemented(AbstractBag):
     """基于链表实现的背包类"""
@@ -135,6 +142,36 @@ class BagLinkedListImplemented(AbstractBag):
             self.item = item
             self.next_node = None
 
+    def iter_item(self):
+        if self.is_empty():
+            return list()
+        else:
+            return self._iter_item()
+
+    def _iter_item(self):
+        item_list = list()
+        cur_node = self.head
+
+        def is_stop():
+            return True if cur_node is None else False
+
+        def handle():
+            item_list.append(cur_node.item)
+
+        def move_next():
+            nonlocal cur_node
+            cur_node = cur_node.next_node
+
+        def recursion():
+            if is_stop() is True:
+                return None
+            else:
+                handle()
+                move_next()
+                return recursion()
+
+        recursion()
+        return item_list
 
 # 控制对外提供的实现
-DefaultBag = BagLinkedListImplemented
+Bag = BagLinkedListImplemented
